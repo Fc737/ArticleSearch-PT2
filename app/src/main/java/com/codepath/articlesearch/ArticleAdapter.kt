@@ -9,11 +9,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
 
 const val ARTICLE_EXTRA = "ARTICLE_EXTRA"
 private const val TAG = "ArticleAdapter"
 
-class ArticleAdapter(private val context: Context, private val articles: List<Article>) :
+class ArticleAdapter(private val context: Context, private val articles:
+MutableList<DisplayArticle>) :
     RecyclerView.Adapter<ArticleAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -39,12 +42,13 @@ class ArticleAdapter(private val context: Context, private val articles: List<Ar
             itemView.setOnClickListener(this)
         }
 
-        fun bind(article: Article) {
-            titleTextView.text = article.headline?.main
+        fun bind(article: DisplayArticle) {
+            titleTextView.text = article.headline
             abstractTextView.text = article.abstract
 
             Glide.with(context)
                 .load(article.mediaImageUrl)
+                .transform(RoundedCorners(20))
                 .into(mediaImageView)
         }
 
